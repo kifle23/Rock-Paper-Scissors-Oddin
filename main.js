@@ -1,42 +1,24 @@
 const choices = ["rock", "paper", "scissors"];
 let winners = [];
+let count = 0;
 
-function game() {
-  for (let i = 1; i <= 5; i++) {
-    playRound(i);
-  }
-  document.querySelector("button").textContent = "New game";
-  logWins();
-}
+function playRound(playerSelection) {
+  count++;
 
-function playRound(round) {
-  let computerSelection = computerChoice();
-  let playerSelection = playerChoice();
-  let winner = checkWinner(playerSelection, computerSelection);
-  winners.push(winner);
-  logRound(playerSelection, computerSelection, winner, round);
-}
-
-function playerChoice() {
-  let input = null;
-  while(input==null){
-    input=prompt("Type Rock, Paper, or Scissors");
-  }
-  input = input.toLowerCase();
-  if(validateInput(input)){
-    return input;
-  }
-  else{
-    playerChoice();
+  if (count <= 5) {
+    let computerSelection = computerChoice();
+    let winner = checkWinner(playerSelection, computerSelection);
+    winners.push(winner);
+    logRound(playerSelection, computerSelection, winner);
+  } else {
+    count = 0;
+    logWins();
+    winners = [];
   }
 }
 
 function computerChoice() {
   return choices[Math.floor(Math.random() * choices.length)];
-}
-
-function validateInput(choice) {
-  return choices.includes(choice);
 }
 
 function checkWinner(playerChoice, computerChoice) {
@@ -54,19 +36,62 @@ function checkWinner(playerChoice, computerChoice) {
 }
 
 function logWins() {
-  let playerWins = winners.filter(x => x == "Player").length;
-  let computerWins = winners.filter(x => x == "Computer").length;
-  let ties = winners.filter(x => x == "Tie").length;
-  console.log("Results:");
-  console.log("Player Wins:", playerWins);
-  console.log("Computer Wins:", computerWins);
-  console.log("Ties:", ties);
+  let playerWins = winners.filter((x) => x == "Player").length;
+  let computerWins = winners.filter((x) => x == "Computer").length;
+  let ties = winners.filter((x) => x == "Tie").length;
+  clearResultSection();
+  postToSummarySection(playerWins, computerWins, ties);
 }
 
-function logRound(playerChoice, computerChoice, winner, round) {
-  console.log("Round:", round);
-  console.log("Player Chose:", playerChoice);
-  console.log("Computer Chose:", computerChoice);
-  console.log(winner, "Won the Round");
-  console.log(".........................");
+function postToSummarySection(playerWins, computerWins, ties) {
+  const summary = document.getElementById("summary");
+  const ps = document.createElement("p");
+  ps.setAttribute("id", "sp");
+  ps.setAttribute("style", "white-space: pre;");
+  ps.textContent = `Summary: 
+    \r\nPlayer Wins: ${playerWins}
+    \r\nComputer Wins: ${computerWins}
+    \r\nTies: ${ties} 
+    \r\n....................................................................`;
+  summary.appendChild(ps);
 }
+
+function clearResultSection() {
+  for (let i = 0; i < 5; i++) {
+    let element = document.getElementById("rp");
+    element.remove();
+  }
+}
+
+function logRound(playerChoice, computerChoice, winner) {
+  const result = document.getElementById("result");
+  const p = document.createElement("p");
+  p.setAttribute("id", "rp");
+  p.setAttribute("style", "white-space: pre;");
+  let str = `Round: ${count} 
+  \r\nPlayer Chose: ${playerChoice}
+  \r\nComputer Chose: ${computerChoice}
+  \r\n${winner} Won the Round
+  \r\n....................................................................`;
+  p.textContent = str;
+  result.appendChild(p);
+}
+
+function removeTransition(e) {
+  if (e.propertyName !== "transform") return;
+  e.target.classList.remove("playing");
+}
+
+function playSound(i) {
+  const audio = document.querySelector(`audio[data-key="${i}"]`);
+  const key = document.querySelector(`div[data-key="${i}"]`);
+  console.log(i);
+  if (!audio) return;
+
+  key.classList.add("playing");
+  audio.currentTime = 0;
+  audio.play();
+}
+
+const keys = Array.from(document.querySelectorAll(".key"));
+keys.forEach((key) => key.addEventListener("transitionend", removeTransition));

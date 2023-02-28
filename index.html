@@ -1,16 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rock Paper Scissors</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
-    <div class="flex-container">
-        <h1>Rock Paper Scissors</h1>
-        <button onclick="game()">Start Game</button>
-      </div>
+    <div class="row">
+        <div>
+            <div data-key="1" class="key" onclick="playSound(1);playRound('rock')">
+                <img class="kbd" src="./imgs/rock.jpg">
+                <span class="sound">Rock</span>
+            </div>
+            <div data-key="2" class="key" onclick="playSound(2);playRound('paper')">
+                <img class="kbd" src="./imgs/paper.jpg">
+                <span class="sound">Paper</span>
+            </div>
+            <div data-key="3" class="key" onclick="playSound(3);playRound('scissors')">
+                <img class="kbd" src="./imgs/scissors.jpg">
+                <span class="sound">Scissors</span>
+            </div>
+        </div>
+        
+        <div>
+            <div id="result">
+                <h3>Result:</h3>
+                ....................................................................
+            </div>
+        </div>
+        <div>
+            <div id="summary">
+                
+            </div>
+        </div>
+        <audio data-key="1" src="sounds/kick.wav"></audio>
+        <audio data-key="2" src="sounds/openhat.wav"></audio>
+        <audio data-key="3" src="sounds/boom.wav"></audio>
+        
+
+        
+    </div>
 </body>
 <script src="main.js"></script>
+
 </html>
