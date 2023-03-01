@@ -1,5 +1,5 @@
 html {
-    font-size: 10px;
+    font-size: 11px;
   }
   
   body,html {
@@ -13,7 +13,7 @@ html {
     
   }
   .row> * {
-    padding: 2rem;
+    padding: 2rem 14rem;
   }
   .key {
     border: .4rem solid black;
@@ -51,12 +51,7 @@ html {
     color: #ffc600;
     font-weight: 800;
   }
-  p {
-    text-align: center;
-    font-size: 10px;
-  }
-
-  #result h3{
-    padding: 0 0 0 4rem;
+  #result,#summary{
+    min-width: 150px;
   } 
   

@@ -1,6 +1,7 @@
 const choices = ["rock", "paper", "scissors"];
 let winners = [];
 let count = 0;
+let countSummary = 0;
 
 function playRound(playerSelection) {
   count++;
@@ -14,6 +15,17 @@ function playRound(playerSelection) {
     count = 0;
     logWins();
     winners = [];
+  }
+  if(count===1){
+    countSummary++;
+    clearSummary();
+  }
+}
+
+function clearSummary() {
+  if (countSummary > 1) {
+    let element = document.getElementById("sp");
+    element.remove();
   }
 }
 
@@ -48,11 +60,12 @@ function postToSummarySection(playerWins, computerWins, ties) {
   const ps = document.createElement("p");
   ps.setAttribute("id", "sp");
   ps.setAttribute("style", "white-space: pre;");
-  ps.textContent = `Summary: 
+
+  ps.innerHTML = `<h3>Summary:</h3> <hr>
     \r\nPlayer Wins: ${playerWins}
     \r\nComputer Wins: ${computerWins}
     \r\nTies: ${ties} 
-    \r\n....................................................................`;
+    <hr>`;
   summary.appendChild(ps);
 }
 
@@ -72,8 +85,8 @@ function logRound(playerChoice, computerChoice, winner) {
   \r\nPlayer Chose: ${playerChoice}
   \r\nComputer Chose: ${computerChoice}
   \r\n${winner} Won the Round
-  \r\n....................................................................`;
-  p.textContent = str;
+  <hr>`;
+  p.innerHTML = str;
   result.appendChild(p);
 }
 
